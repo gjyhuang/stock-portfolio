@@ -2,8 +2,11 @@
 
 # dependencies
 /node_modules
+public/bundle.js
+public/bundle.js.map
 /.pnp
 .pnp.js
+.eslintrc
 
 # testing
 /coverage
