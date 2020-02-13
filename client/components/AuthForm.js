@@ -67,8 +67,7 @@ const mapDispatch = dispatch => ({
       dispatch(auth(email, password, 'login'));
     } else if (formName === 'signup') {
       // else if this form is a signup, register a new user
-      const user = {email, password};
-      dispatch(signUp(user));
+      dispatch(auth(email, password, 'signup'));
     }
   }
 });
