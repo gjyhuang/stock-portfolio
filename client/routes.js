@@ -3,15 +3,10 @@ import {connect} from 'react-redux';
 import {withRouter, Route, Switch} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {me} from './store';
-import {
-  Login,
-  Signup,
-  Home
-} from './components';
+import {Login, Signup} from './components/AuthForm';
+import Landing from './components/Landing';
+import Portfolio from './components/Portfolio';
 
-/**
- * COMPONENT
- */
 class Routes extends Component {
   componentDidMount() {
     this.props.loadInitialData();
@@ -19,17 +14,18 @@ class Routes extends Component {
 
   render() {
     const {isLoggedIn} = this.props;
+    console.log(this.props)
 
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
-        <Route exact path="/" component={Home} />
+        <Route exact path="/" component={Landing} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
-            {/* <Route path="/portfolio" component={Portfolio} /> */}
+            <Route path="/portfolio" component={Portfolio} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
@@ -64,9 +60,6 @@ const mapDispatch = dispatch => ({
 // when the url changes
 export default withRouter(connect(mapState, mapDispatch)(Routes));
 
-/**
- * PROP TYPES
- */
 Routes.propTypes = {
   loadInitialData: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired
