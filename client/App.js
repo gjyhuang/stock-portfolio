@@ -1,11 +1,12 @@
 import React from 'react';
+import StockList from './components/StockList';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
         <p>
-          Edit <code>client/App.js</code> and save to reload.
+          Welcome!
         </p>
         <a
           className="App-link"
@@ -16,6 +17,7 @@ function App() {
           Learn React
         </a>
       </header>
+      <StockList />
     </div>
   );
 }
