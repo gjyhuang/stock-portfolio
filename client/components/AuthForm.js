@@ -64,7 +64,7 @@ const mapDispatch = dispatch => ({
     const password = evt.target.password.value;
     console.log('formName>>', formName, "email>>>", email, "password>>>", password)
     if (formName === 'login') {
-      dispatch(auth(email, password));
+      dispatch(auth(email, password, 'login'));
     } else if (formName === 'signup') {
       // else if this form is a signup, register a new user
       const user = {email, password};
