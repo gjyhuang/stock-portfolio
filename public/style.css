@@ -68,17 +68,48 @@ code {
     monospace;
 }
 
-.App {
+.landing {
   text-align: center;
 }
 
-.App-header {
+.landing-login {
+  width: inherit;
+}
+
+.page-header {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  min-width: 40vw;
+  width: 60%;
   font-size: calc(10px + 2vmin);
   color: white;
 }
 
+.font-header {
+  font-size: calc(16px + 2vmin);
+}
+
+.flex-centered-all {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.flex-dir-col {
+  flex-direction: column;
+}
+
+.flex-dir-row {
+  flex-direction: row;
+}
+
+.flex-space-btw {
+  justify-content: space-between;
+}
+
+.divider-20px {
+  margin-bottom: 20px;
+}
