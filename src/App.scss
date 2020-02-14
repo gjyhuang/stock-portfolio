@@ -1,0 +1,92 @@
+@import 'scss/shell/PageLoader';
+
+#root {
+  width: 100%;
+}
+
+#navbar {
+  display: flex;
+  align-items: baseline;
+  align-content: center;
+  justify-content: space-between;
+  height: 40px;
+  width: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+
+#nav-left {
+  padding: 20px;
+  display: flex;
+  align-items: flex-start;
+}
+
+#nav-right {
+  padding: 20px;
+  /* display: flex; */
+}
+
+.divider {
+  color: #666;
+  display: flex;
+  align-items: flex-start;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+#main-wrapper {
+  margin-top: 40px;
+  padding: 20px;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.landing {
+  text-align: center;
+}
+
+.landing-login {
+  width: inherit;
+}
+
+.page-header {
+  min-height: 100vh;
+  min-width: 40vw;
+  width: 60%;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.font-header {
+  font-size: calc(16px + 2vmin);
+}
+
+.flex-centered-all {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.flex-dir-col {
+  flex-direction: column;
+}
+
+.flex-dir-row {
+  flex-direction: row;
+}
+
+.flex-space-btw {
+  justify-content: space-between;
+}
+
+.divider-20px {
+  margin-bottom: 20px;
+}
