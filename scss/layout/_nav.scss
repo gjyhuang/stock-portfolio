@@ -1,0 +1,21 @@
+#navbar {
+  display: flex;
+  align-items: baseline;
+  align-content: center;
+  justify-content: space-between;
+  height: 40px;
+  width: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+
+.nav-left {
+  display: flex;
+  align-items: flex-start;
+}
+
+.nav-right {
+  /* display: flex; */
+}
+
