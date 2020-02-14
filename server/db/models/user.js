@@ -27,8 +27,10 @@ const User = db.define('user', {
       return () => this.getDataValue('salt');
     }
   },
-  googleId: {
-    type: Sequelize.STRING
+  totalCash: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    defaultValue: 500000
   },
 });
 
