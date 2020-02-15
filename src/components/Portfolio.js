@@ -1,13 +1,36 @@
 import React from 'react';
+import {connect} from 'react-redux';
+import Navbar from './Navbar';
 
 const Portfolio = () => {
+  const [stockToBuy, setStockToBuy] = React.useState("");
+
   return (
+    <>
+    <Navbar />
     <div id="main-wrapper">
       <div id="portfolio">
-        <h2>My Portfolio</h2>
+        <div className="">My Portfolio</div>
       </div>
     </div>
+    </>
   )
 }
 
-export default Portfolio;
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+  }
+}
+
+const ConnectedPortfolio = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Portfolio);
+
+export default ConnectedPortfolio;

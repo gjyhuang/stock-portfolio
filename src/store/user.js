@@ -21,20 +21,19 @@ export const me = () => async dispatch => {
   try {
     const res = await axios.get('/auth/me')
     dispatch(getUser(res.data || defaultUser))
+    if (res.data) history.push('/portfolio')
   } catch (err) {
     console.error(err)
   }
 }
 
 export const auth = (email, password, method) => async dispatch => {
-  console.log(email, password, method)
   let res
   try {
     res = await axios.post(`/auth/${method}`, {email, password})
   } catch (authError) {
     return dispatch(getUser({error: authError}))
   }
-  console.log('res?', res);
   try {
     dispatch(getUser(res.data))
     history.push('/portfolio')
