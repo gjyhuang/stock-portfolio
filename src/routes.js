@@ -1,50 +1,44 @@
-import React, {Component} from 'react';
+import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 import {withRouter, Route, Switch} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {me} from './store';
 import {Login, Signup} from './components/AuthForm';
 import Landing from './components/Landing';
-import Portfolio from './components/Portfolio';
+import ConnectedPortfolio from './components/Portfolio';
+import PageLoader from './components/screens/PageLoader';
 
-class Routes extends Component {
-  componentDidMount() {
-    this.props.loadInitialData();
-  }
+const Routes = ({loadInitialData, isLoggedIn}) => {
 
-  render() {
-    const {isLoggedIn} = this.props;
-    console.log(this.props)
+  useEffect(() => loadInitialData(), []);
 
-    return (
-      <Switch>
-        {/* Routes placed here are available to all visitors */}
-        <Route exact path="/" component={Landing} />
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />
-        {isLoggedIn && (
-          <Switch>
-            {/* Routes placed here are only available after logging in */}
-            <Route path="/portfolio" component={Portfolio} />
-          </Switch>
-        )}
-        {/* Displays our Login component as a fallback */}
-        <Route component={Login} />
-      </Switch>
-    );
-  }
+  return (
+    <Switch>
+      {/* Routes placed here are available to all visitors */}
+      <Route exact path="/"
+        render={() => <Landing />}
+      />
+      <Route path="/login" component={Login} />
+      <Route path="/signup" component={Signup} />
+      {isLoggedIn && (
+        <Switch>
+          {/* Routes placed here are only available after logging in */}
+          <Route path="/portfolio" component={ConnectedPortfolio} />
+        </Switch>
+      )}
+      {/* Displays our Login component as a fallback */}
+      <Route exact path="/" component={PageLoader} />
+    </Switch>
+  );
 }
 
 /**
  * CONTAINER
  */
 const mapState = state => {
-  console.log('state in map state', state);
   return {
-    // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
-    // Otherwise, state.user will be an empty object, and state.user.id will be falsey
-    isLoggedIn: !!state.user.id
-    // user: state.user
+    // logged in -> having a valid user.id in state
+    isLoggedIn: !!state.user.id,
   };
 };
 
@@ -52,7 +46,6 @@ const mapDispatch = dispatch => ({
   loadInitialData() {
     // if there's a state dispatch me with user
     dispatch(me());
-    // add dispatch of action to grab the cart
   }
 });
 
