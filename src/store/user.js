@@ -17,11 +17,14 @@ const removeUser = () => ({type: REMOVE_USER})
 
 // THUNK CREATORS
 
+// checks for persisted login. if no user, sends to login/signup
+// else, sends the logged in user to their portfolio
 export const me = () => async dispatch => {
   try {
     const res = await axios.get('/auth/me')
     dispatch(getUser(res.data || defaultUser))
     if (res.data) history.push('/portfolio')
+    else history.push(('/'))
   } catch (err) {
     console.error(err)
   }
