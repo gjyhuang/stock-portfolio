@@ -1,10 +1,9 @@
 import React from "react";
 
-const StockSelectForm = (props) => {
-  const {stockToBuy, setStockToBuy} = props;
-
+const StockSelectForm = ({stockToBuy, setStockToBuy, getStock}) => {
   const handleSubmit = (event) => {
     event.preventDefault();
+    getStock(stockToBuy);
   }
 
   return (
