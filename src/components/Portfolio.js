@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import Navbar from './Navbar';
+import StockSelectForm from './StockSelectForm';
 
 const Portfolio = () => {
   const [stockToBuy, setStockToBuy] = React.useState("");
@@ -12,6 +13,7 @@ const Portfolio = () => {
       <div id="portfolio">
         <div className="">My Portfolio</div>
       </div>
+      <StockSelectForm stockToBuy={stockToBuy} setStockToBuy={setStockToBuy} />
     </div>
     </>
   )
@@ -25,6 +27,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+
   }
 }
 
