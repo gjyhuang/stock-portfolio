@@ -1,15 +1,18 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 import axios from 'axios';
 import {STOCK_API_KEY} from '../../keys';
 import Navbar from './Navbar';
 import StockSelected from './StockSelected';
 import StockForm from './StockForm';
+import {getTransactionsThunkCreator} from '../store';
 
-const Portfolio = () => {
+const Portfolio = ({loadInitialData, user}) => {
   const [stockToBuy, setStockToBuy] = React.useState("");
   const [selectedStock, setSelectedStock] = React.useState({});
   const [amtToBuy, setAmtToBuy] = React.useState(0);
+
+  useEffect(() => loadInitialData(user), [])
 
   // makes IEX API call for the selected stock and sets it to state
   // pass object down to StockSelected component
@@ -34,7 +37,6 @@ const Portfolio = () => {
       <div id="portfolio">
         <div className="">My Portfolio</div>
       </div>
-      {/* <StockSelectForm stockToBuy={stockToBuy} setStockToBuy={setStockToBuy} getStock={getStock} /> */}
       <StockForm
         className="stock-form stock-search"
         labelText='Stock Ticker:'
@@ -67,14 +69,15 @@ const Portfolio = () => {
 const mapStateToProps = (state) => {
   return {
     user: state.user,
+    transactions: state.transactions
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-
+const mapDispatchToProps = (dispatch) => ({
+  loadInitialData(user) {
+    dispatch(getTransactionsThunkCreator(user.transactionHistoryId))
   }
-}
+})
 
 const ConnectedPortfolio = connect(
   mapStateToProps,
