@@ -9,7 +9,6 @@ const StockSelected = ({selectedStock, fetchSelectedStock}) => {
     change,
     ytdChange
   } = selectedStock;
-  console.log(symbol, latestPrice, companyName)
 
   return (
   <>

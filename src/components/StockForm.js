@@ -5,7 +5,6 @@ const StockForm = ({
   labelText,
   value,
   onClickCallback,
-  args,
   onChangeFunc = null,
   inputType = "submit",
   inputValue = "Submit"
