@@ -5,7 +5,7 @@ import {STOCK_API_KEY} from '../../keys';
 import Navbar from './Navbar';
 import StockSelected from './StockSelected';
 import StockForm from './StockForm';
-import {getTransactionsThunkCreator} from '../store';
+import {getTransactionsThunkCreator, getPortfolioThunkCreator} from '../store';
 
 const Portfolio = ({loadInitialData, user}) => {
   const [stockToBuy, setStockToBuy] = React.useState("");
@@ -69,13 +69,15 @@ const Portfolio = ({loadInitialData, user}) => {
 const mapStateToProps = (state) => {
   return {
     user: state.user,
+    portfolio: state.portfolio,
     transactions: state.transactions
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
   loadInitialData(user) {
-    dispatch(getTransactionsThunkCreator(user.transactionHistoryId))
+    dispatch(getPortfolioThunkCreator(user.portfolioId));
+    dispatch(getTransactionsThunkCreator(user.transactionHistoryId));
   }
 })
 
