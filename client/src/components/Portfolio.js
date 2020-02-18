@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 import axios from 'axios';
-import {STOCK_API_KEY} from '../../keys';
+import {STOCK_API_KEY} from '../keys';
 import Navbar from './Navbar';
 import StockSelected from './StockSelected';
 import StockForm from './StockForm';
