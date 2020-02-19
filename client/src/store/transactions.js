@@ -12,7 +12,7 @@ const ADD_TRANSACTION = 'ADD_TRANSACTION';
 // ACTION CREATORS
 
 const getTransactions = transactions => ({type: GET_TRANSACTIONS, transactions});
-const addTransaction = (transaction, value) => ({type: ADD_TRANSACTION, transaction, value});
+const addTransaction = (transaction) => ({type: ADD_TRANSACTION, transaction});
 
 // THUNK CREATORS
 
@@ -28,10 +28,10 @@ export const getTransactionsThunkCreator = (id) => async dispatch => {
 
 // takes in user.transactionHistoryId
 // adds new transaction from portfolio upon stock purchase
-export const addTransactionThunkCreator = (transaction, value, id) => async dispatch => {
+export const addTransactionThunkCreator = (transaction, id) => async dispatch => {
   try {
-    await axios.post(`/api/transactions/${id}`, {transaction});
-    dispatch(addTransaction(transaction, value));
+    const transactionToAdd = await axios.post(`/api/transactions/${id}`, transaction);
+    dispatch(addTransaction(transactionToAdd));
   } catch (err) {
     console.error(err);
   }
@@ -45,9 +45,8 @@ export default function(state = defaultTransactions, action) {
       return action.transactions
     case ADD_TRANSACTION:
       // pushes new transaction to transactions and updates totalPurchaseValue
-      const updatedTotalValue = state.totalPurchaseValue + action.value;
-      const updatedTransactions = [...state.transactions]
-      updatedTransactions.push(action.transaction);
+      const updatedTotalValue = state.totalPurchaseValue + action.transaction.price;
+      const updatedTransactions = [...state.transactions, action.transaction]
       return {
         ...state,
         totalPurchaseValue: updatedTotalValue,

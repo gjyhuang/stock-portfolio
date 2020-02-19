@@ -19,15 +19,12 @@ router.post('/:id', async (req, res, next) => {
   try {
     // make sure the user is logged in via passport's req.user
     // if (!req.user) res.sendStatus(401);
-    const { symbol, name, priceAtPurchase, quantity, date } = req.body;
+    const { symbol, companyName, priceAtPurchase, quantity, convertedDate } = req.body;
 
     // making sure quantity is a whole integer
     if (quantity <= 0 || !Number.isInteger(quantity)) {
       return res.status(400).json('Please enter a valid quantity.');
     }
-
-    const newDate = new Date(date);
-    const convertedDate = newDate.toLocaleString();
 
     const userTransactions = await TransactionHistory.findOne({
       where: { id: req.params.id },
@@ -36,7 +33,7 @@ router.post('/:id', async (req, res, next) => {
 
     const newTransaction = await Transaction.create({
       symbol,
-      name,
+      companyName,
       priceAtPurchase,
       quantity,
       date: convertedDate,
