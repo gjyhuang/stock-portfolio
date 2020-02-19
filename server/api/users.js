@@ -1,0 +1,42 @@
+const router = require('express').Router();
+const {User} = require('../db/models/index');
+
+module.exports = router;
+
+router.get('/', async (req, res, next) => {
+  try {
+    const users = await User.findAll({
+      attributes: ['id', 'email']
+    });
+    res.json(users);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get('/:id', async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.params.id);
+    res.json(user);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// pass in amount being paid
+router.put('/:id', async (req, res, next) => {
+  // make sure the user is logged in via passport's req.user
+  if (!req.user) res.sendStatus(401);
+  try {
+    const amt = req.body;
+    if (amt < 0) {
+      res.status(400).send("Error: negative amount.")
+    }
+    const user = await User.findByPk(req.params.id);
+    user.totalCash -= amt;
+    await user.save();
+    res.json(user);
+  } catch (err) {
+    next(err);
+  }
+})

@@ -4,6 +4,7 @@ module.exports = router;
 
 router.use('/portfolio', require('./portfolio'));
 router.use('/transactions', require('./transactions'));
+router.use('/users', require('./users'));
 
 router.use((req, res, next) => {
   const error = new Error('Not Found');
