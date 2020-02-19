@@ -10,19 +10,16 @@ const Stock = db.define('stock', {
     type: Sequelize.STRING,
     allowNull: false
   },
-  priceAtPurchase: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-    defaultValue: 1,
-    validate: { min: 0 }
-  },
   quantity: {
     type: Sequelize.INTEGER,
     allowNull: false,
-    defaultValue: 1,
     validate: { min: 0 }
   },
-  date: {
+  firstUpdate: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  latestUpdate: {
     type: Sequelize.STRING,
     allowNull: false
   },
