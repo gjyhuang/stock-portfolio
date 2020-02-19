@@ -59,7 +59,6 @@ export const logout = () => async dispatch => {
 
 export const updateCashThunkCreator = (cash, id) => async dispatch => {
   try {
-    console.log('cash in thunk creator', cash)
     const updatedUser = await axios.put(`/api/users/${id}`, {cash});
     dispatch(updateCash(updatedUser.data.totalCash));
   } catch (err) {

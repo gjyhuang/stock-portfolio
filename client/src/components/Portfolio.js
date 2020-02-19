@@ -39,7 +39,6 @@ const Portfolio = ({loadInitialData, user, dispatchAddStock, dispatchUpdateCash}
   // updates store
   const buyStock = async (stockQuantity) => {
     const { symbol, companyName, latestUpdate, latestPrice } = selectedStock;
-    console.log('stuff in buystock >>>>', symbol, companyName, latestUpdate, latestPrice)
     const quantity = Number(stockQuantity);
     if (quantity <= 0 || !Number.isInteger(quantity)) {
       setError("Error: quantity must be a positive, whole number.");

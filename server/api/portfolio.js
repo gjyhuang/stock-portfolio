@@ -21,7 +21,6 @@ router.post('/:id', async (req, res, next) => {
     // make sure the user is logged in via passport's req.user
     if (!req.user) res.sendStatus(401);
     const { symbol, companyName, quantity, latestUpdate } = req.body;
-    console.log('stuff in post route >>>>', symbol, companyName, quantity, latestUpdate, 'req.params.id >', req.params.id)
 
     // making sure quantity is a whole integer
     if (quantity <= 0 || !Number.isInteger(quantity)) {

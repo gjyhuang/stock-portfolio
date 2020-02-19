@@ -23,7 +23,6 @@ router.post('/:id', async (req, res, next) => {
 
     // making sure quantity is a whole integer
     if (quantity <= 0 || !Number.isInteger(quantity)) {
-      console.log(symbol, name)
       return res.status(400).json('Please enter a valid quantity.');
     }
 
