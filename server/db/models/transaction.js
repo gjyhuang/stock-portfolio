@@ -20,7 +20,7 @@ const Transaction = db.define('transaction', {
     type: Sequelize.INTEGER,
     allowNull: false,
     defaultValue: 1,
-    validate: { min: 0 }
+    validate: { min: 1 }
   },
   date: {
     type: Sequelize.STRING,
