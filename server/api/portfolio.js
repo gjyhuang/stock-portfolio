@@ -20,7 +20,8 @@ router.post('/:id', async (req, res, next) => {
   try {
     // make sure the user is logged in via passport's req.user
     if (!req.user) res.sendStatus(401);
-    const { symbol, name, quantity, latestUpdate } = req.body;
+    const { symbol, companyName, quantity, latestUpdate } = req.body;
+    console.log('stuff in post route >>>>', symbol, companyName, quantity, latestUpdate, 'req.params.id >', req.params.id)
 
     // making sure quantity is a whole integer
     if (quantity <= 0 || !Number.isInteger(quantity)) {
@@ -38,7 +39,7 @@ router.post('/:id', async (req, res, next) => {
         portfolioId: req.params.id
        },
        defaults: {
-         name,
+         name: companyName,
          symbol,
          quantity,
          firstUpdate: convertedDate,

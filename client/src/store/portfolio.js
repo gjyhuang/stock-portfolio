@@ -29,9 +29,11 @@ export const getPortfolioThunkCreator = (id) => async dispatch => {
 // adds the selected stock to the portfolio
 // or increments it if it already exists
 // also adds to transaction history
-export const addStockThunkCreator = (stock) => async dispatch => {
+export const addStockThunkCreator = (stock, id) => async dispatch => {
   try {
-
+    const stockToBuy = await axios.post(`/api/portfolio/${id}`, stock);
+    console.log('stocktobuy >>>', stockToBuy)
+    dispatch(addStock(stockToBuy.data));
   } catch (err) {
     console.error(err);
   }

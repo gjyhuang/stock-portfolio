@@ -9,11 +9,13 @@ const defaultUser = {}
 
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
+const UPDATE_CASH = 'UPDATE_CASH'
 
 // ACTION CREATORS
 
 const getUser = user => ({type: GET_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
+const updateCash = cash => ({type: UPDATE_CASH, cash})
 
 // THUNK CREATORS
 
@@ -55,6 +57,16 @@ export const logout = () => async dispatch => {
   }
 }
 
+export const updateCashThunkCreator = (cash, id) => async dispatch => {
+  try {
+    console.log('cash in thunk creator', cash)
+    const updatedUser = await axios.put(`/api/users/${id}`, {cash});
+    dispatch(updateCash(updatedUser.data.totalCash));
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 // REDUCER
 
 export default function(state = defaultUser, action) {
@@ -63,6 +75,11 @@ export default function(state = defaultUser, action) {
       return action.user
     case REMOVE_USER:
       return defaultUser
+    case UPDATE_CASH:
+      return {
+        ...state,
+        totalCash: action.cash
+      }
     default:
       return state
   }
