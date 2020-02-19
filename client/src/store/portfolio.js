@@ -60,7 +60,11 @@ export default function(state = defaultPortfolio, action) {
       }
     case UPDATE_STOCK:
       const updatedStocks = [...state.stocks]
-      const stockToUpdate = updatedStocks.find(stock => stock.symbol === )
+      const actionStock = action.stock.symbol;
+      const stockToUpdate = updatedStocks.find(stock => stock.symbol === actionStock.symbol);
+      console.log(stockToUpdate);
+      stockToUpdate.quantity += actionStock.quantity;
+      stockToUpdate.latestUpdate = actionStock.latestUpdate;
       return {
         ...state,
         stocks: updatedStocks
