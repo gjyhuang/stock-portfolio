@@ -5,6 +5,7 @@ import {STOCK_API_KEY} from '../keys';
 import Navbar from './Navbar';
 import StockSelected from './StockSelected';
 import StockForm from './StockForm';
+import StockList from './StockList';
 import Loader from './screens/PageLoader';
 import {
   getTransactionsThunkCreator,
@@ -77,6 +78,7 @@ const Portfolio = ({loadInitialData, user, portfolio, transactions, dispatchAddS
         <div id="portfolio">
           <div className="header">My Portfolio</div>
           <div className="user-cash">Cash: ${currCash}</div>
+          <StockList portfolio={portfolio}/>
         </div>
         <StockForm
           className="stock-form stock-search"
