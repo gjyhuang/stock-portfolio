@@ -24,6 +24,7 @@ const Routes = ({loadInitialData, isLoggedIn}) => {
         <Switch>
           {/* Routes placed here are only available after logging in */}
           <Route path="/portfolio" component={ConnectedPortfolio} />
+          <Route path="/transactions" component={ConnectedPortfolio} />
         </Switch>
       )}
       {/* Displays our Login component as a fallback */}

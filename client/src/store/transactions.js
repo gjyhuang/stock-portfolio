@@ -31,7 +31,7 @@ export const getTransactionsThunkCreator = (id) => async dispatch => {
 export const addTransactionThunkCreator = (transaction, id) => async dispatch => {
   try {
     const transactionToAdd = await axios.post(`/api/transactions/${id}`, transaction);
-    dispatch(addTransaction(transactionToAdd));
+    dispatch(addTransaction(transactionToAdd.data));
   } catch (err) {
     console.error(err);
   }
@@ -50,7 +50,7 @@ export default function(state = defaultTransactions, action) {
       return {
         ...state,
         totalPurchaseValue: updatedTotalValue,
-        updatedTransactions
+        transactions: updatedTransactions
       }
     default:
       return state

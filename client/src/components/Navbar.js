@@ -16,7 +16,11 @@ const Navbar = ({handleClick, isLoggedIn}) => {
             </div>
             <div className="divider"> | </div>
             <div className="nav-links" />
-            <Link to="/transactions">Transactions</Link>
+            <Link to={{
+              pathname: "/transactions",
+              state: {
+                isTransactionsPage: true
+              }}}>Transactions</Link>
           </div>
           <div className="nav-right padding-20">
             <a href="#" onClick={handleClick}>

@@ -15,7 +15,7 @@ import {
   addTransactionThunkCreator
 } from '../store';
 
-const Portfolio = ({loadInitialData, user, portfolio, transactions, dispatchAddStock, dispatchUpdateCash, dispatchAddTransaction}) => {
+const Portfolio = ({loadInitialData, location, user, portfolio, transactions, dispatchAddStock, dispatchUpdateCash, dispatchAddTransaction}) => {
   const [stockToBuy, setStockToBuy] = React.useState("");
   const [selectedStock, setSelectedStock] = React.useState({});
   const [amtToBuy, setAmtToBuy] = React.useState(0);
@@ -71,13 +71,29 @@ const Portfolio = ({loadInitialData, user, portfolio, transactions, dispatchAddS
     return <Loader />
   }
 
+  // render transactions
+  if (location.state && location.state.isTransactionsPage) {
+    return (
+      <>
+      <Navbar />
+      <div className="main-wrapper flex-display flex-wrap flex-space-arnd">
+        <div id="transactions">
+          <div className="header">Transactions</div>
+          <StockList transactions={transactions} isTransactionsPage={true}/>
+        </div>
+      </div>
+      </>
+    )
+  }
+
+  // render portfolio
   return (
     <>
     <Navbar />
     <div className="main-wrapper flex-display flex-wrap flex-space-arnd">
       <div className="left-wrapper width-45vw">
         <div id="portfolio">
-          <div className="header">My Portfolio</div>
+          <div className="header">Portfolio</div>
           <div className="user-cash">Cash: ${currCash}</div>
           <StockList portfolio={portfolio}/>
         </div>
