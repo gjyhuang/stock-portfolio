@@ -46,16 +46,17 @@ const Portfolio = ({loadInitialData, user, portfolio, transactions, dispatchAddS
       setError("Error: quantity must be a positive, whole number.");
       return;
     }
-    const totalCash = {user};
-    const price = latestPrice * quantity * 100;
+    const {totalCash} = user;
+    const price = Math.floor(latestPrice * quantity * 100);
     if (price > totalCash) {
       setError("Error: not enough funds to purchase.");
+      return;
     } else {
       setError("");
       const date = new Date();
       const convertedDate = date.toLocaleString();
 
-      dispatchAddStock({ symbol, companyName, quantity, convertedDate }, user.portfolioId);
+      dispatchAddStock({ symbol, companyName, quantity, convertedDate }, latestPrice, user.portfolioId);
       dispatchUpdateCash(price, user.id);
       dispatchAddTransaction({symbol, companyName, price, quantity, convertedDate}, user.transactionHistoryId);
     }
@@ -65,41 +66,43 @@ const Portfolio = ({loadInitialData, user, portfolio, transactions, dispatchAddS
   let currCashStr = String(user.totalCash);
   let currCash = currCashStr.slice(0, currCashStr.length-2) + '.' + currCashStr.slice(currCashStr.length-2);
 
-  if (!user.id || !portfolio.id || !transactions.id) return <Loader />
+  if (!user.id || !portfolio.id || !transactions.id) {
+    return <Loader />
+  }
 
   return (
     <>
     <Navbar />
-    <div id="main-wrapper">
-      <div id="portfolio">
-        <div className="header">My Portfolio</div>
-        <div className="user-cash">Cash: ${currCash}</div>
-      </div>
-      <StockForm
-        className="stock-form stock-search"
-        labelText='Stock Ticker:'
-        value={stockToBuy}
-        onClickCallback={getStock}
-        onChangeFunc={setStockToBuy}
-        inputType = "submit"
-        inputValue = "Search"
-      />
-      <div id="stock-selected" style={{visibility: selectedStock.symbol ? 'visible' : 'hidden'}}>
-        <StockSelected selectedStock={selectedStock} fetchSelectedStock={setSelectedStock} />
-        <div className="text-description">
-          Purchase this stock by entering the desired number of shares below and clicking 'Buy'.
+      <div id="main-wrapper">
+        <div id="portfolio">
+          <div className="header">My Portfolio</div>
+          <div className="user-cash">Cash: ${currCash}</div>
         </div>
         <StockForm
-          className="stock-form stock-buy"
-          labelText='Number of shares:'
-          value={amtToBuy}
-          onClickCallback={buyStock}
-          onChangeFunc={setAmtToBuy}
+          className="stock-form stock-search"
+          labelText='Stock Ticker:'
+          value={stockToBuy}
+          onClickCallback={getStock}
+          onChangeFunc={setStockToBuy}
           inputType = "submit"
-          inputValue = "Buy"
+          inputValue = "Search"
         />
+        <div id="stock-selected" style={{visibility: selectedStock.symbol ? 'visible' : 'hidden'}}>
+          <StockSelected selectedStock={selectedStock} fetchSelectedStock={setSelectedStock} />
+          <div className="text-description">
+            Purchase this stock by entering the desired number of shares below and clicking 'Buy'.
+          </div>
+          <StockForm
+            className="stock-form stock-buy"
+            labelText='Number of shares:'
+            value={amtToBuy}
+            onClickCallback={buyStock}
+            onChangeFunc={setAmtToBuy}
+            inputType = "submit"
+            inputValue = "Buy"
+          />
+        </div>
       </div>
-    </div>
     </>
   )
 }
@@ -117,7 +120,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(getPortfolioThunkCreator(user.portfolioId));
     dispatch(getTransactionsThunkCreator(user.transactionHistoryId));
   },
-  dispatchAddStock: (stock, id) => dispatch(addStockThunkCreator(stock, id)),
+  dispatchAddStock: (stock, price, id) => dispatch(addStockThunkCreator(stock, price, id)),
   dispatchUpdateCash: (cash, id) => dispatch(updateCashThunkCreator(cash, id)),
   dispatchAddTransaction: (transaction, id) => dispatch(addTransactionThunkCreator(transaction, id))
 })
