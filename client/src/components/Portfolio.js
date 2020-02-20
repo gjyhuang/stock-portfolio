@@ -74,12 +74,16 @@ const Portfolio = ({loadInitialData, user, portfolio, transactions, dispatchAddS
   return (
     <>
     <Navbar />
-      <div id="main-wrapper">
+    <div className="main-wrapper flex-display flex-wrap flex-space-arnd">
+      <div className="left-wrapper width-45vw">
         <div id="portfolio">
           <div className="header">My Portfolio</div>
           <div className="user-cash">Cash: ${currCash}</div>
           <StockList portfolio={portfolio}/>
         </div>
+      </div>
+      <div className="divider-col" />
+      <div className="right-wrapper width-45vw flex-display flex-dir-col flex-align-center">
         <StockForm
           className="stock-form stock-search"
           labelText='Stock Ticker:'
@@ -105,6 +109,7 @@ const Portfolio = ({loadInitialData, user, portfolio, transactions, dispatchAddS
           />
         </div>
       </div>
+    </div>
     </>
   )
 }

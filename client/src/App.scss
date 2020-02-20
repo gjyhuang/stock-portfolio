@@ -1,5 +1,9 @@
 @import 'scss/abstracts/flex';
 @import 'scss/abstracts/spacing';
+@import 'scss/components/Portfolio';
+@import 'scss/components/StockList';
+@import 'scss/components/StockForm';
+@import 'scss/components/StockSelected';
 @import 'scss/shell/PageLoader';
 @import 'scss/layout/nav';
 
@@ -15,9 +19,10 @@
   margin-right: 10px;
 }
 
-#main-wrapper {
+.main-wrapper {
   margin-top: 40px;
   padding: 20px;
+  min-width: 800px;
 }
 
 .landing {

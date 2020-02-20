@@ -1,0 +1,25 @@
+.stock-list {
+  grid-template-columns: 7fr 15fr 8fr 10fr 10fr;
+  grid-template-rows: auto;
+}
+
+.stock-list ul, .stock-row ul {
+  list-style-type: none;
+  display: grid;
+  grid-template-columns: 15% 27% 18% 20% 20%;
+  grid-template-rows: auto;
+  margin: 0;
+  width: 45vw;
+  min-width: 360px;
+  max-width: 550px;
+  border: 1px solid white;
+  padding: 0;
+}
+
+.stock-list li, #stock-selected li {
+  padding: 5px 5px;
+}
+
+.top-row {
+  font-size: 14px;
+}
