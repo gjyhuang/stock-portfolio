@@ -19,6 +19,7 @@ const updateStock = stock => ({type: UPDATE_STOCK, stock})
 // THUNK CREATORS
 
 // takes in user.portfolioId
+// also gets most updated stock prices, which don't need to be stored in the db due to how they constantly update
 export const getPortfolioThunkCreator = (id) => async dispatch => {
   try {
     const userPortfolio = await axios.get(`/api/portfolio/${id}`);
@@ -39,6 +40,7 @@ export const addStockThunkCreator = (stock, id) => async dispatch => {
     if (stockToBuy.data[1]) {
       dispatch(addStock(stockToBuy.data[0]));
     } else {
+      // make sure to set existing stock's quantity to equal stockToBuy's quantity, as it has already been incremented
       dispatch(updateStock(stockToBuy.data[0]));
     }
   } catch (err) {
@@ -60,11 +62,9 @@ export default function(state = defaultPortfolio, action) {
       }
     case UPDATE_STOCK:
       const updatedStocks = [...state.stocks]
-      const actionStock = action.stock.symbol;
-      const stockToUpdate = updatedStocks.find(stock => stock.symbol === actionStock.symbol);
-      console.log(stockToUpdate);
-      stockToUpdate.quantity += actionStock.quantity;
-      stockToUpdate.latestUpdate = actionStock.latestUpdate;
+      const actionStock = action.stock;
+      let stockToUpdate = updatedStocks.find(stock => stock.symbol === actionStock.symbol);
+      stockToUpdate.quantity = actionStock.quantity;
       return {
         ...state,
         stocks: updatedStocks

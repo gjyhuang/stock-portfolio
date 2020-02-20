@@ -5,14 +5,16 @@ import {STOCK_API_KEY} from '../keys';
 import Navbar from './Navbar';
 import StockSelected from './StockSelected';
 import StockForm from './StockForm';
+import Loader from './screens/PageLoader';
 import {
   getTransactionsThunkCreator,
   getPortfolioThunkCreator,
   addStockThunkCreator,
-  updateCashThunkCreator
+  updateCashThunkCreator,
+  addTransactionThunkCreator
 } from '../store';
 
-const Portfolio = ({loadInitialData, user, dispatchAddStock, dispatchUpdateCash}) => {
+const Portfolio = ({loadInitialData, user, portfolio, transactions, dispatchAddStock, dispatchUpdateCash, dispatchAddTransaction}) => {
   const [stockToBuy, setStockToBuy] = React.useState("");
   const [selectedStock, setSelectedStock] = React.useState({});
   const [amtToBuy, setAmtToBuy] = React.useState(0);
@@ -25,10 +27,10 @@ const Portfolio = ({loadInitialData, user, dispatchAddStock, dispatchUpdateCash}
   const getStock = async (name) => {
     name = name.toUpperCase();
     try {
-      const URL = `https://sandbox.iexapis.com/stable/stock/market/batch?symbols=${name}&types=quote&range=1m&last=5&&token=${STOCK_API_KEY}`;
+      const URL = `https://sandbox.iexapis.com/stable/stock/${name}/quote?token=${STOCK_API_KEY}`;
       const dataFetch = await axios.get(URL);
-      const stock = dataFetch.data[name]
-      if (stock) setSelectedStock(stock.quote);
+      const stock = dataFetch.data;
+      if (stock) setSelectedStock(stock);
     } catch (err) {
       console.error(err);
     }
@@ -38,7 +40,7 @@ const Portfolio = ({loadInitialData, user, dispatchAddStock, dispatchUpdateCash}
   // subtracts its price x quantity from user's total cash
   // updates store
   const buyStock = async (stockQuantity) => {
-    const { symbol, companyName, latestUpdate, latestPrice } = selectedStock;
+    const { symbol, companyName, latestPrice } = selectedStock;
     const quantity = Number(stockQuantity);
     if (quantity <= 0 || !Number.isInteger(quantity)) {
       setError("Error: quantity must be a positive, whole number.");
@@ -49,14 +51,21 @@ const Portfolio = ({loadInitialData, user, dispatchAddStock, dispatchUpdateCash}
     if (price > totalCash) {
       setError("Error: not enough funds to purchase.");
     } else {
-      dispatchAddStock({ symbol, companyName, quantity, latestUpdate }, user.portfolioId);
+      setError("");
+      const date = new Date();
+      const convertedDate = date.toLocaleString();
+
+      dispatchAddStock({ symbol, companyName, quantity, convertedDate }, user.portfolioId);
       dispatchUpdateCash(price, user.id);
+      dispatchAddTransaction({symbol, companyName, price, quantity, convertedDate}, user.transactionHistoryId);
     }
   }
 
   console.log('selectedStock >>>>', selectedStock)
   let currCashStr = String(user.totalCash);
   let currCash = currCashStr.slice(0, currCashStr.length-2) + '.' + currCashStr.slice(currCashStr.length-2);
+
+  if (!user.id || !portfolio.id || !transactions.id) return <Loader />
 
   return (
     <>
@@ -109,7 +118,8 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(getTransactionsThunkCreator(user.transactionHistoryId));
   },
   dispatchAddStock: (stock, id) => dispatch(addStockThunkCreator(stock, id)),
-  dispatchUpdateCash: (cash, id) => dispatch(updateCashThunkCreator(cash, id))
+  dispatchUpdateCash: (cash, id) => dispatch(updateCashThunkCreator(cash, id)),
+  dispatchAddTransaction: (transaction, id) => dispatch(addTransactionThunkCreator(transaction, id))
 })
 
 const ConnectedPortfolio = connect(
