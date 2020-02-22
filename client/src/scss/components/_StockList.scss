@@ -1,6 +1,8 @@
 .stock-list {
-  grid-template-columns: 7fr 15fr 8fr 10fr 10fr;
+  // grid-template-columns: 7fr 15fr 8fr 10fr 10fr;
+  grid-template-columns: 7vw 10vw 5vw 10vw 8vw;
   grid-template-rows: auto;
+  width: 40vw;
 }
 
 .stock-list ul, .stock-row ul {
@@ -25,4 +27,13 @@
 .top-row {
   font-size: 14px;
   font-size: calc(1px + 1.5vmin);
+}
+
+.portfolio-total {
+  width: 40vw;
+  margin-top: -.5vh;
+  padding-bottom: 3vh;
+  padding-right: 2vh;
+  padding-left: 2vh;
+  text-align: right;
 }
