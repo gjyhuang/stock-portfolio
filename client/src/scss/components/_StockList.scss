@@ -6,7 +6,7 @@
 .stock-list ul, .stock-row ul {
   list-style-type: none;
   display: grid;
-  grid-template-columns: 6vw 10vw 6vw 10vw 8vw;
+  grid-template-columns: 7vw 10vw 5vw 10vw 8vw;
   grid-template-rows: auto;
   margin: 0;
   width: 40vw;
@@ -19,6 +19,7 @@
 
 .stock-list li, #stock-selected li {
   padding: 5px 5px;
+  text-overflow: ellipsis;
 }
 
 .top-row {

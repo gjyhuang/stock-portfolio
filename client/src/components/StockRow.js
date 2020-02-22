@@ -1,12 +1,16 @@
 import React from 'react';
 
-const StockRow = ({id, symbol, companyName, quantity, value}) => {
+const StockRow = ({symbol, companyName, quantity, value, status}) => {
   let totalValue = value * quantity;
   totalValue = totalValue.toFixed(2);
+
+  console.log('status >>>', status)
+  const changeStatus = status > 0 ? "greenTriangle" : "redTriangle";
+
   return (
     <div className="stock-row">
       <ul>
-        <li>{symbol}</li>
+        <li className="flex-display"><div className={changeStatus}></div>{symbol}</li>
         <li>{companyName}</li>
         <li>{quantity}</li>
         <li>{value}</li>

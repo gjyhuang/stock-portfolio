@@ -15,10 +15,10 @@ import {
   addTransactionThunkCreator
 } from '../store';
 
-const Portfolio = ({loadInitialData, location, user, portfolio, transactions, dispatchAddStock, dispatchUpdateCash, dispatchAddTransaction}) => {
+const Portfolio = ({loadInitialData, location, user, portfolio, transactions, dispatchAddStock, dispatchUpdateCash, dispatchAddTransaction, dispatchRefresh}) => {
   const [stockFromSearch, setStockFromSearch] = React.useState("");
   const [selectedStock, setSelectedStock] = React.useState({});
-  const [amtToBuy, setAmtToBuy] = React.useState(0);
+  const [amtToBuy, setAmtToBuy] = React.useState(1);
   const [errorMessage, setErrorMessage] = React.useState("");
 
   useEffect(() => loadInitialData(user), [])
@@ -40,6 +40,7 @@ const Portfolio = ({loadInitialData, location, user, portfolio, transactions, di
       // make sure no selected stock is on display - keeps error message at the bottom of the right column
       console.error(err);
       setSelectedStock("");
+      setAmtToBuy(1);
       if (err.response.status === 429) {
         setErrorMessage("You have attempted too many searches in too short a time frame. Please wait before trying again.")
       } else if (err.response.status === 500) {
@@ -54,13 +55,15 @@ const Portfolio = ({loadInitialData, location, user, portfolio, transactions, di
   // subtracts its price x quantity from user's total cash
   // updates store
   const buyStock = async (stockQuantity) => {
-    const { symbol, companyName, latestPrice } = selectedStock;
+    const { symbol, companyName, latestPrice, open } = selectedStock;
     const quantity = Number(stockQuantity);
     if (quantity <= 0 || !Number.isInteger(quantity)) {
       setErrorMessage("Error: quantity must be a positive, whole number.");
       return;
     }
     const {totalCash} = user;
+    const status = latestPrice - open;
+    console.log('status?', status)
     const price = Math.floor(latestPrice * quantity * 100);
     if (price > totalCash) {
       setErrorMessage("Error: not enough funds to purchase.");
@@ -70,12 +73,13 @@ const Portfolio = ({loadInitialData, location, user, portfolio, transactions, di
       setErrorMessage("Transaction complete!");
       const date = new Date();
       const convertedDate = date.toLocaleString();
-
-      dispatchAddStock({ symbol, companyName, quantity, convertedDate }, latestPrice, user.portfolioId);
+      dispatchAddStock({ symbol, companyName, quantity, convertedDate }, latestPrice, status, user.portfolioId);
       dispatchUpdateCash(price, user.id);
       dispatchAddTransaction({symbol, companyName, price, quantity, convertedDate}, user.transactionHistoryId);
     }
   }
+
+  console.log('selectedStock >>>>', selectedStock);
 
   let currCashStr = String(user.totalCash);
   let currCash = currCashStr.slice(0, currCashStr.length-2) + '.' + currCashStr.slice(currCashStr.length-2);
@@ -108,7 +112,7 @@ const Portfolio = ({loadInitialData, location, user, portfolio, transactions, di
         <div id="portfolio" className="flex-wrap flex-justify-center">
           <div className="header">Portfolio</div>
           <div className="user-cash body-text-normal">Cash: ${currCash}</div>
-          <StockList portfolio={portfolio}/>
+          <StockList portfolio={portfolio} dispatchRefresh={dispatchRefresh}/>
         </div>
       </div>
       <div className="divider-col" />
@@ -162,9 +166,10 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(getPortfolioThunkCreator(user.portfolioId));
     dispatch(getTransactionsThunkCreator(user.transactionHistoryId));
   },
-  dispatchAddStock: (stock, price, id) => dispatch(addStockThunkCreator(stock, price, id)),
+  dispatchAddStock: (stock, price, status, id) => dispatch(addStockThunkCreator(stock, price, status, id)),
   dispatchUpdateCash: (cash, id) => dispatch(updateCashThunkCreator(cash, id)),
-  dispatchAddTransaction: (transaction, id) => dispatch(addTransactionThunkCreator(transaction, id))
+  dispatchAddTransaction: (transaction, id) => dispatch(addTransactionThunkCreator(transaction, id)),
+  dispatchRefresh: (id) => dispatch(getPortfolioThunkCreator(id))
 })
 
 const ConnectedPortfolio = connect(

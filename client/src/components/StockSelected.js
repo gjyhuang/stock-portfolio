@@ -7,11 +7,13 @@ const StockSelected = ({selectedStock}) => {
     companyName,
     latestUpdate,
     change,
+    open
   } = selectedStock;
 
 
   const date = new Date(latestUpdate);
   const convertedDate = date.toLocaleString();
+  const changeStatus = (latestPrice - open > 0) ? "greenTriangle" : "redTriangle";
 
   return (
   <>
@@ -26,7 +28,7 @@ const StockSelected = ({selectedStock}) => {
         </ul>
       </div>
       <ul>
-        <li>{symbol}</li>
+      <li className="flex-display"><div className={changeStatus}></div>{symbol}</li>
         <li>{companyName}</li>
         <li>{latestPrice}</li>
         <li>{convertedDate}</li>

@@ -14,25 +14,34 @@ const UPDATE_STOCK = 'UPDATE_STOCK';
 // ACTION CREATORS
 
 const getPortfolio = portfolio => ({type: GET_PORTFOLIO, portfolio});
-const addStock = (stock, price) => ({type: ADD_STOCK, stock, price});
-const updateStock = (stock, price) => ({type: UPDATE_STOCK, stock, price})
+const addStock = (stock, price, status) => ({type: ADD_STOCK, stock, price, status});
+const updateStock = (stock, price, status) => ({type: UPDATE_STOCK, stock, price, status})
 
 // THUNK CREATORS
 
 // takes in user.portfolioId
 // also gets most updated stock prices, which don't need to be stored in the db due to how they constantly update
+  // also gets recentPrice - open, to determine whether red or green arrow displays
 export const getPortfolioThunkCreator = (id) => async dispatch => {
   try {
     const userPortfolio = await axios.get(`/api/portfolio/${id}`);
     const portfolio = {...userPortfolio.data};
-    const stocksWithValues = await Promise.all(
-      portfolio.stocks.map(async stock => {
-      const URL = `https://sandbox.iexapis.com/stable/stock/${stock.symbol}/quote?token=${STOCK_API_KEY}`;
-      const dataFetch = await axios.get(URL);
-      const updatedValue = dataFetch.data.latestPrice;
+    // make batch call to API for quotes for entire portfolio
+    const symbols = portfolio.stocks
+      .map(stock => stock.symbol)
+      .join(',');
+    const URL = `https://sandbox.iexapis.com/stable/stock/market/batch?symbols=${symbols}&types=quote&range=1m&last=5&&token=${STOCK_API_KEY}`;
+    const dataFetch = await axios.get(URL);
+
+    // map through portfolio array to access nested objects from response object
+    const stocksWithValues = portfolio.stocks.map(stock => {
+      const currData = dataFetch.data[stock.symbol].quote;
+      const updatedValue = currData.latestPrice;
+      const status = currData.latestPrice - currData.open;
       stock.value = updatedValue;
+      stock.status = status;
       return stock;
-    }));
+    });
     portfolio.stocks = stocksWithValues;
     dispatch(getPortfolio(portfolio));
   } catch (err) {
@@ -44,16 +53,16 @@ export const getPortfolioThunkCreator = (id) => async dispatch => {
 // adds the selected stock to the portfolio, with value
 // or increments it if it already exists
 // also adds to transaction history
-export const addStockThunkCreator = (stock, price, id) => async dispatch => {
+export const addStockThunkCreator = (stock, price, status, id) => async dispatch => {
   try {
     const stockToBuy = await axios.post(`/api/portfolio/${id}`, stock);
     // if new stock, add; else, update existing stock
     // also send price so that the stock can have a .value in the store
     if (stockToBuy.data[1]) {
-      dispatch(addStock(stockToBuy.data[0], price));
+      dispatch(addStock(stockToBuy.data[0], price, status));
     } else {
       // make sure to set existing stock's quantity to equal stockToBuy's quantity, as it has already been incremented
-      dispatch(updateStock(stockToBuy.data[0], price));
+      dispatch(updateStock(stockToBuy.data[0], price, status));
     }
   } catch (err) {
     console.error(err);
@@ -80,6 +89,7 @@ export default function(state = defaultPortfolio, action) {
       let stockToUpdate = updatedStocks.find(stock => stock.symbol === actionStock.symbol);
       stockToUpdate.quantity = actionStock.quantity;
       stockToUpdate.value = action.price;
+      stockToUpdate.status = action.status;
       return {
         ...state,
         stocks: updatedStocks
