@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
-import {logout} from '../store';
+import {logout, getPortfolioThunkCreator} from '../store';
 
-const Navbar = ({handleClick, isLoggedIn}) => {
+const Navbar = ({handleClick, isLoggedIn, handlePortfolioClick, portfolioId}) => {
   return (
     <nav>
       {isLoggedIn ? (
@@ -12,7 +12,7 @@ const Navbar = ({handleClick, isLoggedIn}) => {
           {/* The navbar will show these links after you log in */}
           <div className="nav-left padding-20">
             <div className="nav-links">
-              <Link to="/portfolio">Portfolio</Link>
+              <Link to="/portfolio" onClick={() => handlePortfolioClick(portfolioId)}>Portfolio</Link>
             </div>
             <div className="divider"> | </div>
             <div className="nav-links" />
@@ -35,11 +35,15 @@ const Navbar = ({handleClick, isLoggedIn}) => {
 
 const mapState = state => ({
   isLoggedIn: !!state.user.id,
+  portfolioId: state.user.portfolioId
 });
 
 const mapDispatch = dispatch => ({
   handleClick() {
     dispatch(logout());
+  },
+  handlePortfolioClick(id) {
+    dispatch(getPortfolioThunkCreator(id));
   }
 });
 
