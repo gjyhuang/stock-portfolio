@@ -16,14 +16,15 @@ import {
 } from '../store';
 
 const Portfolio = ({loadInitialData, location, user, portfolio, transactions, dispatchAddStock, dispatchUpdateCash, dispatchAddTransaction}) => {
-  const [stockToBuy, setStockToBuy] = React.useState("");
+  const [stockFromSearch, setStockFromSearch] = React.useState("");
   const [selectedStock, setSelectedStock] = React.useState({});
   const [amtToBuy, setAmtToBuy] = React.useState(0);
-  const [transactionError, setError] = React.useState("");
+  const [errorMessage, setErrorMessage] = React.useState("");
 
   useEffect(() => loadInitialData(user), [])
 
   // makes IEX API call for the selected stock and sets it to state
+    // if the stock doesn't exist, display error
   // pass object down to StockSelected component
   const getStock = async (name) => {
     name = name.toUpperCase();
@@ -31,9 +32,21 @@ const Portfolio = ({loadInitialData, location, user, portfolio, transactions, di
       const URL = `https://sandbox.iexapis.com/stable/stock/${name}/quote?token=${STOCK_API_KEY}`;
       const dataFetch = await axios.get(URL);
       const stock = dataFetch.data;
-      if (stock) setSelectedStock(stock);
+      if (stock) {
+        setErrorMessage("");
+        setSelectedStock(stock);
+      }
     } catch (err) {
+      // make sure no selected stock is on display - keeps error message at the bottom of the right column
       console.error(err);
+      setSelectedStock("");
+      if (err.response.status === 429) {
+        setErrorMessage("You have attempted too many searches in too short a time frame. Please wait before trying again.")
+      } else if (err.response.status === 500) {
+        setErrorMessage("System error. Please try again shortly.")
+      } else {
+        setErrorMessage("This stock does not exist, or is not available for purchase.");
+      }
     }
   }
 
@@ -44,16 +57,17 @@ const Portfolio = ({loadInitialData, location, user, portfolio, transactions, di
     const { symbol, companyName, latestPrice } = selectedStock;
     const quantity = Number(stockQuantity);
     if (quantity <= 0 || !Number.isInteger(quantity)) {
-      setError("Error: quantity must be a positive, whole number.");
+      setErrorMessage("Error: quantity must be a positive, whole number.");
       return;
     }
     const {totalCash} = user;
     const price = Math.floor(latestPrice * quantity * 100);
     if (price > totalCash) {
-      setError("Error: not enough funds to purchase.");
+      setErrorMessage("Error: not enough funds to purchase.");
       return;
     } else {
-      setError("");
+      // in this case only, set "error" message to one confirming transaction went through
+      setErrorMessage("Transaction complete!");
       const date = new Date();
       const convertedDate = date.toLocaleString();
 
@@ -63,7 +77,6 @@ const Portfolio = ({loadInitialData, location, user, portfolio, transactions, di
     }
   }
 
-  console.log('selectedStock >>>>', selectedStock)
   let currCashStr = String(user.totalCash);
   let currCash = currCashStr.slice(0, currCashStr.length-2) + '.' + currCashStr.slice(currCashStr.length-2);
 
@@ -106,13 +119,13 @@ const Portfolio = ({loadInitialData, location, user, portfolio, transactions, di
         <StockForm
           className="stock-form stock-search"
           labelText='Stock Ticker:'
-          value={stockToBuy}
+          value={stockFromSearch}
           onClickCallback={getStock}
-          onChangeFunc={setStockToBuy}
+          onChangeFunc={setStockFromSearch}
           inputType = "submit"
           inputValue = "Search"
         />
-        <div id="stock-selected" className=" flex-display flex-dir-col flex-align-center" style={{visibility: selectedStock.symbol ? 'visible' : 'hidden'}}>
+        <div id="stock-selected" className=" flex-display flex-dir-col flex-align-center" style={{display: selectedStock.symbol ? '' : 'none'}}>
           <StockSelected selectedStock={selectedStock} fetchSelectedStock={setSelectedStock} />
           <div className="text-description body-text-normal padding-20">
             Purchase this stock by entering the desired number of shares below and clicking 'Buy'.
@@ -127,6 +140,9 @@ const Portfolio = ({loadInitialData, location, user, portfolio, transactions, di
             inputValue = "Buy"
           />
         </div>
+        {errorMessage ?
+          <div className="text-description body-text-normal padding-20 text-align-center">{errorMessage}</div>
+          : <></>}
       </div>
     </div>
     </>
