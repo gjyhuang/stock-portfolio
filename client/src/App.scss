@@ -1,11 +1,27 @@
 @import 'scss/abstracts/flex';
 @import 'scss/abstracts/spacing';
+@import 'scss/abstracts/text';
 @import 'scss/components/Portfolio';
 @import 'scss/components/StockList';
 @import 'scss/components/StockForm';
 @import 'scss/components/StockSelected';
 @import 'scss/shell/PageLoader';
 @import 'scss/layout/nav';
+
+a:hover {
+  color: #666;
+  -o-transition: 1s;
+  -ms-transition: 1s;
+  -moz-transition: 1s;
+  -webkit-transition: 1s;
+  transition: 1s;
+}
+
+a {
+  color: #fff;
+  transition: 1s;
+  text-decoration: none;
+}
 
 #root {
   width: 100%;
@@ -21,8 +37,8 @@
 
 .main-wrapper {
   margin-top: 40px;
-  padding: 20px;
-  min-width: 800px;
+  padding: 4vh 2vh;
+  min-width: 500px;
 }
 
 .landing {

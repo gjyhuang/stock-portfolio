@@ -13,19 +13,27 @@ const StockList = ({portfolio, transactions, isTransactionsPage}) => {
 
   itemList = isTransactionsPage ? stocks.map(stock => <TransactionRow key={stock.id} {...stock} />) : stocks.map(stock => <StockRow key={stock.id} {...stock} />)
 
+  // only render column headers if there are stocks/transactions
+  const colHeaders = (
+    <div className="stock-list top-row">
+      <ul>
+        <li>Symbol</li>
+        <li>Company</li>
+        <li>Qty</li>
+        <li>{valueOrDate}</li>
+        <li>Total Value ($)</li>
+      </ul>
+    </div>
+  )
+
+  // if no stocks/transactions, changes message depending on which one
+  const noStocks = isTransactionsPage ? <div className="body-text-large">You have no transactions on record.</div> : <div className="body-text-large">Your portfolio is empty.</div>
+
   if (!portfolio && !transactions) return null;
 
   return (
     <div className="stock-list padding-20">
-      <div className="stock-list top-row">
-        <ul>
-          <li>Symbol</li>
-          <li>Company</li>
-          <li>Qty</li>
-          <li>{valueOrDate}</li>
-          <li>Total Value ($)</li>
-        </ul>
-      </div>
+      {stocks.length ? colHeaders : noStocks}
       {itemList}
     </div>
   )

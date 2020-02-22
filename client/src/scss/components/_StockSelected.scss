@@ -3,22 +3,6 @@
 }
 
 #stock-selected ul {
-  list-style-type: none;
-  display: grid;
-  grid-template-columns: 15% 25% 18% 22% 20%;
+  grid-template-columns: 6vw 10vw 8vw 9vw 7vw;
   grid-template-rows: auto;
-  margin: 0;
-  width: 45vw;
-  min-width: 400px;
-  max-width: 500px;
-  border: 1px solid white;
-  padding: 0;
-}
-
-// #stock-selected li:nth-child(4) {
-//   font-size: 12px;
-// }
-
-#stock-selected .top-row {
-  font-size: 14px;
 }

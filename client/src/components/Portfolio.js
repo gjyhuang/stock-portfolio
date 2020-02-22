@@ -91,15 +91,18 @@ const Portfolio = ({loadInitialData, location, user, portfolio, transactions, di
     <>
     <Navbar />
     <div className="main-wrapper flex-display flex-wrap flex-space-arnd">
-      <div className="left-wrapper width-45vw">
-        <div id="portfolio">
+      <div className="left-wrapper width-45vw min-width-200">
+        <div id="portfolio" className="flex-wrap flex-justify-center">
           <div className="header">Portfolio</div>
-          <div className="user-cash">Cash: ${currCash}</div>
+          <div className="user-cash body-text-normal">Cash: ${currCash}</div>
           <StockList portfolio={portfolio}/>
         </div>
       </div>
       <div className="divider-col" />
-      <div className="right-wrapper width-45vw flex-display flex-dir-col flex-align-center">
+      <div className="right-wrapper width-45vw min-width-200flex-display flex-dir-col flex-align-center">
+        <div className="text-description body-text-normal padding-20">
+          Look up a stock to purchase via its symbol.
+        </div>
         <StockForm
           className="stock-form stock-search"
           labelText='Stock Ticker:'
@@ -109,14 +112,14 @@ const Portfolio = ({loadInitialData, location, user, portfolio, transactions, di
           inputType = "submit"
           inputValue = "Search"
         />
-        <div id="stock-selected" style={{visibility: selectedStock.symbol ? 'visible' : 'hidden'}}>
+        <div id="stock-selected" className=" flex-display flex-dir-col flex-align-center" style={{visibility: selectedStock.symbol ? 'visible' : 'hidden'}}>
           <StockSelected selectedStock={selectedStock} fetchSelectedStock={setSelectedStock} />
-          <div className="text-description">
+          <div className="text-description body-text-normal padding-20">
             Purchase this stock by entering the desired number of shares below and clicking 'Buy'.
           </div>
           <StockForm
             className="stock-form stock-buy"
-            labelText='Number of shares:'
+            labelText='No. of shares:'
             value={amtToBuy}
             onClickCallback={buyStock}
             onChangeFunc={setAmtToBuy}

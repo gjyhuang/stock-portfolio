@@ -6,14 +6,15 @@
 .stock-list ul, .stock-row ul {
   list-style-type: none;
   display: grid;
-  grid-template-columns: 15% 27% 14% 24% 20%;
+  grid-template-columns: 6vw 10vw 6vw 10vw 8vw;
   grid-template-rows: auto;
   margin: 0;
-  width: 45vw;
-  min-width: 360px;
-  max-width: 550px;
+  width: 40vw;
+  min-width: 190px;
+  // max-width: 550px;
   border: 1px solid white;
   padding: 0;
+  font-size: calc(1px + 1.5vmin);
 }
 
 .stock-list li, #stock-selected li {
@@ -22,4 +23,5 @@
 
 .top-row {
   font-size: 14px;
+  font-size: calc(1px + 1.5vmin);
 }
