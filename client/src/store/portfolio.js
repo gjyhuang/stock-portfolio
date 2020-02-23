@@ -1,5 +1,4 @@
 import axios from 'axios'
-import {STOCK_API_KEY} from '../keys';
 
 // INITIAL STATE
 
@@ -26,28 +25,7 @@ export const getPortfolioThunkCreator = (id) => async dispatch => {
   try {
     const userPortfolio = await axios.get(`/api/portfolio/${id}`);
     const portfolio = {...userPortfolio.data};
-    // make batch call to API for quotes for entire portfolio
-    const symbols = portfolio.stocks
-      .map(stock => stock.symbol)
-      .join(',');
-    const URL = `https://sandbox.iexapis.com/stable/stock/market/batch?symbols=${symbols}&types=quote&range=1m&last=5&&token=${STOCK_API_KEY}`;
-    // api call won't work if portfolio is empty - skip
-    if (!symbols) {
-      dispatch(getPortfolio(portfolio));
-      return;
-    }
-    const dataFetch = await axios.get(URL);
-
-    // map through portfolio array to access nested objects from response object
-    const stocksWithValues = portfolio.stocks.map(stock => {
-      const currData = dataFetch.data[stock.symbol].quote;
-      const updatedValue = currData.latestPrice;
-      const status = currData.latestPrice - currData.open;
-      stock.value = updatedValue;
-      stock.status = status;
-      return stock;
-    });
-    portfolio.stocks = stocksWithValues;
+    console.log('portfolio?', portfolio)
     dispatch(getPortfolio(portfolio));
   } catch (err) {
     console.error(err);

@@ -17,7 +17,7 @@ public/bundle.js.map
 
 # misc
 .env
-keys.js
+secrets.js
 .DS_Store
 .env.local
 .env.development.local

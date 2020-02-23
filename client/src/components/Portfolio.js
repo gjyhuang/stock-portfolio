@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 import axios from 'axios';
-import {STOCK_API_KEY} from '../keys';
 import Navbar from './Navbar';
 import StockSelected from './StockSelected';
 import StockForm from './StockForm';
@@ -23,27 +22,24 @@ const Portfolio = ({loadInitialData, location, user, portfolio, transactions, di
 
   useEffect(() => loadInitialData(user), [])
 
-  // makes IEX API call for the selected stock and sets it to state
+  // makes IEX API call in the backend for the selected stock and sets it to state
     // if the stock doesn't exist, display error
   // pass object down to StockSelected component
-  const getStock = async (name) => {
-    name = name.toUpperCase();
+  const getStock = async (symbol) => {
+    symbol = symbol.toUpperCase();
     try {
-      const URL = `https://sandbox.iexapis.com/stable/stock/${name}/quote?token=${STOCK_API_KEY}`;
-      const dataFetch = await axios.get(URL);
-      const stock = dataFetch.data;
-      if (stock) {
+      const { data } = await axios.get(`/api/portfolio/fetchQuote/${symbol}`);
+      if (data) {
         setErrorMessage("");
-        setSelectedStock(stock);
+        setSelectedStock(data);
       }
     } catch (err) {
       // make sure no selected stock is on display - keeps error message at the bottom of the right column
-      console.error(err);
       setSelectedStock("");
       setAmtToBuy(1);
-      if (err.response.status === 429) {
+      if (err === "Error: Request failed with status code 429") {
         setErrorMessage("You have attempted too many searches in too short a time frame. Please wait before trying again.")
-      } else if (err.response.status === 500) {
+      } else if (err === "Error: Request failed with status code 500") {
         setErrorMessage("System error. Please try again shortly.")
       } else {
         setErrorMessage("This stock does not exist, or is not available for purchase.");
@@ -69,12 +65,12 @@ const Portfolio = ({loadInitialData, location, user, portfolio, transactions, di
       return;
     } else {
       // in this case only, set "error" message to one confirming transaction went through
-      setErrorMessage("Transaction complete!");
       const date = new Date();
       const convertedDate = date.toLocaleString();
       dispatchAddStock({ symbol, companyName, quantity, convertedDate }, latestPrice, status, user.portfolioId);
       dispatchUpdateCash(price, user.id);
       dispatchAddTransaction({symbol, companyName, price, quantity, convertedDate}, user.transactionHistoryId);
+      setErrorMessage("Transaction complete!");
     }
   }
 
@@ -117,15 +113,17 @@ const Portfolio = ({loadInitialData, location, user, portfolio, transactions, di
         <div className="text-description body-text-normal padding-20">
           Look up a stock to purchase via its symbol.
         </div>
-        <StockForm
-          className="stock-form stock-search"
-          labelText='Stock Ticker:'
-          value={stockFromSearch}
-          onClickCallback={getStock}
-          onChangeFunc={setStockFromSearch}
-          inputType = "submit"
-          inputValue = "Search"
-        />
+        <div id="stock-search" className=" flex-display flex-dir-col flex-align-center">
+          <StockForm
+            className="stock-form stock-search"
+            labelText='Stock Ticker:'
+            value={stockFromSearch}
+            onClickCallback={getStock}
+            onChangeFunc={setStockFromSearch}
+            inputType = "submit"
+            inputValue = "Search"
+          />
+        </div>
         <div id="stock-selected" className=" flex-display flex-dir-col flex-align-center" style={{display: selectedStock.symbol ? '' : 'none'}}>
           <StockSelected selectedStock={selectedStock} fetchSelectedStock={setSelectedStock} />
           <div className="text-description body-text-normal padding-20">
