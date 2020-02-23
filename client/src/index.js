@@ -7,9 +7,6 @@ import store from './store';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
-// establishes socket connection
-// import './socket';
-
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>

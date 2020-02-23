@@ -1,7 +1,7 @@
 {
   "name": "stock-portfolio",
-  "version": "0.1.0",
-  "description": "Fullstack web-based stock portfolio app",
+  "version": "1.0.0",
+  "description": "Fullstack web-based demo stock portfolio app",
   "private": true,
   "author": "Grace Huang",
   "license": "MIT",
@@ -23,8 +23,6 @@
   },
   "scripts": {
     "build": "cd client/ && npm install && npm run build",
-    "build-client": "webpack",
-    "build-client-watch": "webpack -w",
     "start": "node server",
     "start-dev": "NODE_ENV='development' npm run start-server & NODE_ENV='development' cd client/ && npm start",
     "start-server": "nodemon server -e html,js,scss --ignore public --ignore client",

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {auth} from '../store';
 
 const AuthForm = props => {
-  const {name, displayName, dispatchAuth, error, newPwdError, setNewPwdError, isSignup} = props;
+  const {name, displayName, dispatchAuth, error, setNewPwdError, isSignup} = props;
 
   const handleSubmit = (evt) => {
     evt.preventDefault();

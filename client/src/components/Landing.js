@@ -1,7 +1,7 @@
 import React from 'react';
-import {Login, Signup} from './AuthForm';
+import {Login} from './AuthForm';
 import AuthModal from './AuthModal';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import { CSSTransition } from 'react-transition-group';
 
 const Landing = () => {
   const [showingModal, setShowingModal] = React.useState(false);

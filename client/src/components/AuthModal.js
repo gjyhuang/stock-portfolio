@@ -1,7 +1,7 @@
 import React from 'react';
 import {Signup} from './AuthForm';
 
-const AuthModal = ({showingModal, setShowingModal, handleClick, text}) => {
+const AuthModal = ({showingModal, setShowingModal, text}) => {
   const [newPwdError, setNewPwdError] = React.useState("");
 
   const handleModalExit = () => {
