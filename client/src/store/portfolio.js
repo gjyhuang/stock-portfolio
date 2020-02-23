@@ -25,7 +25,6 @@ export const getPortfolioThunkCreator = (id) => async dispatch => {
   try {
     const userPortfolio = await axios.get(`/api/portfolio/${id}`);
     const portfolio = {...userPortfolio.data};
-    console.log('portfolio?', portfolio)
     dispatch(getPortfolio(portfolio));
   } catch (err) {
     console.error(err);

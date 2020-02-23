@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const axios = require('axios');
-const STOCK_API_KEY = process.env.API_KEY || require('../../secrets');
+const STOCK_API_KEY = process.env.STOCK_API_KEY;
 const {Portfolio, Stock} = require('../db/models/index');
 
 module.exports = router;
@@ -61,7 +61,6 @@ router.post('/:id', async (req, res, next) => {
 
 router.get('/fetchQuote/:symbol', async (req, res, next) => {
   try {
-    // console.log('req.params', req.params)
     const URL = `https://sandbox.iexapis.com/stable/stock/${req.params.symbol}/quote?token=${STOCK_API_KEY}`;
     const { data } = await axios.get(URL);
     if (data) {
