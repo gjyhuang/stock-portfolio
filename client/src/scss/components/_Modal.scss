@@ -13,11 +13,11 @@
 
 .auth-modal {
   position: fixed;
-  height: 35vh;
+  height: 350px;
   background-color: #000;
   width: 400px;
   z-index: 3;
-  top: 30vh;
+  top: calc(50vh - 200px);
   left: 0;
   right: 0;
   margin: auto;
@@ -62,10 +62,12 @@
 @media only screen and (max-width: 500px) {
   .auth-modal {
     width: 100vw;
+    height: 350px;
+    top: calc(50vh - 175px);
   }
 
   .auth-modal #login-form {
-    width: 87vw;
+    width: 90vw;
   }
 
   #login-form input, #login-form label {
