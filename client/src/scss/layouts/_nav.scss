@@ -15,7 +15,10 @@
   align-items: flex-start;
 }
 
-.nav-right {
-  /* display: flex; */
+@media only screen and (max-width: 500px) {
+  #navbar {
+    min-width: 100px;
+    flex-wrap: nowrap;
+    font-size: 14px;
+  }
 }
-

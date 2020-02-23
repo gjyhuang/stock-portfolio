@@ -37,3 +37,9 @@
   padding-left: 2vh;
   text-align: right;
 }
+
+@media only screen and (max-width: 400px) {
+  .stock-list {
+    min-width: 200px;
+  }
+}

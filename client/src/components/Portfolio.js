@@ -100,48 +100,51 @@ const Portfolio = ({loadInitialData, location, user, portfolio, transactions, di
   return (
     <>
     <Navbar />
-    <div className="main-wrapper flex-display flex-wrap flex-space-arnd">
-      <div className="left-wrapper width-45vw min-width-200">
-        <div id="portfolio" className="flex-wrap flex-justify-center">
-          <div className="header">Portfolio</div>
-          <div className="user-cash body-text-normal">Cash: ${currCash}</div>
-          <StockList portfolio={portfolio} dispatchRefresh={dispatchRefresh}/>
-        </div>
-      </div>
-      <div className="divider-col" />
-      <div className="right-wrapper width-45vw min-width-200flex-display flex-dir-col flex-align-center">
-        <div className="text-description body-text-normal padding-20">
-          Look up a stock to purchase via its symbol.
-        </div>
-        <div id="stock-search" className=" flex-display flex-dir-col flex-align-center">
-          <StockForm
-            className="stock-form stock-search"
-            labelText='Stock Ticker:'
-            value={stockFromSearch}
-            onClickCallback={getStock}
-            onChangeFunc={setStockFromSearch}
-            inputType = "submit"
-            inputValue = "Search"
-          />
-        </div>
-        <div id="stock-selected" className=" flex-display flex-dir-col flex-align-center" style={{display: selectedStock.symbol ? '' : 'none'}}>
-          <StockSelected selectedStock={selectedStock} fetchSelectedStock={setSelectedStock} />
-          <div className="text-description body-text-normal padding-20">
-            Purchase this stock by entering the desired number of shares below and clicking 'Buy'.
+    <div className="margin-top-wrapper">
+      <div className="main-wrapper flex-display flex-wrap flex-space-arnd">
+        <div className="left-wrapper width-45vw min-width-200">
+          <div id="portfolio" className="flex-wrap flex-justify-center">
+            <div className="header">Portfolio</div>
+            <div className="user-cash body-text-normal">Cash: ${currCash}</div>
+            <StockList portfolio={portfolio} dispatchRefresh={dispatchRefresh}/>
           </div>
-          <StockForm
-            className="stock-form stock-buy"
-            labelText='No. of shares:'
-            value={amtToBuy}
-            onClickCallback={buyStock}
-            onChangeFunc={setAmtToBuy}
-            inputType = "submit"
-            inputValue = "Buy"
-          />
         </div>
-        {errorMessage ?
-          <div className="text-description body-text-normal padding-20 text-align-center">{errorMessage}</div>
-          : <></>}
+        <div className="divider-col" />
+        <div className="divider-row" />
+        <div className="right-wrapper width-45vw min-width-200flex-display flex-dir-col flex-align-center">
+          <div className="text-description body-text-normal padding-20">
+            Look up a stock to purchase via its symbol.
+          </div>
+          <div id="stock-search" className=" flex-display flex-dir-col flex-align-center">
+            <StockForm
+              className="stock-form stock-search"
+              labelText='Stock Ticker:'
+              value={stockFromSearch}
+              onClickCallback={getStock}
+              onChangeFunc={setStockFromSearch}
+              inputType = "submit"
+              inputValue = "Search"
+            />
+          </div>
+          <div id="stock-selected" className=" flex-display flex-dir-col flex-align-center" style={{display: selectedStock.symbol ? '' : 'none'}}>
+            <StockSelected selectedStock={selectedStock} fetchSelectedStock={setSelectedStock} />
+            <div className="text-description body-text-normal padding-20">
+              Purchase this stock by entering the desired number of shares below and clicking 'Buy'.
+            </div>
+            <StockForm
+              className="stock-form stock-buy"
+              labelText='No. of shares:'
+              value={amtToBuy}
+              onClickCallback={buyStock}
+              onChangeFunc={setAmtToBuy}
+              inputType = "submit"
+              inputValue = "Buy"
+            />
+          </div>
+          {errorMessage ?
+            <div className="text-description body-text-normal padding-20 text-align-center">{errorMessage}</div>
+            : <></>}
+        </div>
       </div>
     </div>
     </>

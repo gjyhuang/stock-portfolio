@@ -12,3 +12,27 @@
   font-size: 1.8vh;
   padding: 1vh;
 }
+
+@media only screen and (max-width: 500px) {
+  #portfolio {
+    min-width: 100px;
+    flex-wrap: nowrap;
+  }
+
+  .left-wrapper {
+    height: 100%;
+    margin-bottom: 4vh;
+  }
+
+  .right-wrapper {
+    margin-top: 2vh;
+  }
+
+  .divider-col {
+    display: none;
+  }
+
+  .divider-row {
+    display: block;
+  }
+}
