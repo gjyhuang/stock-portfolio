@@ -1,0 +1,57 @@
+.overlay-darken {
+  position: absolute;
+  display: flex;
+  justify-content: flex-end;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: black;
+  z-index: 2;
+  opacity: 50%;
+}
+
+.auth-modal {
+  position: fixed;
+  height: 35vh;
+  background-color: #000;
+  width: 400px;
+  z-index: 3;
+  top: 30vh;
+  left: 0;
+  right: 0;
+  margin: auto;
+  border-radius: 10px;
+}
+
+.modalfade-enter {
+  opacity: 0;
+}
+
+.modalfade-enter-active {
+  opacity: 1;
+  transition: opacity .3s ease-in;
+}
+
+.modalfade-exit {
+  opacity: 1;
+}
+
+.modalfade-exit-active {
+  opacity: 0;
+  transition: opacity .3s;
+}
+
+.modal-text {
+  color: black;
+  padding: 20px;
+}
+
+.modal-text h4 {
+  color: purple;
+  font-size: 16;
+  text-align: center;
+  margin: 0;
+  margin-bottom: 10px;
+}
+

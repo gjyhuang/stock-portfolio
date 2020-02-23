@@ -63,7 +63,6 @@ const Portfolio = ({loadInitialData, location, user, portfolio, transactions, di
     }
     const {totalCash} = user;
     const status = latestPrice - open;
-    console.log('status?', status)
     const price = Math.floor(latestPrice * quantity * 100);
     if (price > totalCash) {
       setErrorMessage("Error: not enough funds to purchase.");
@@ -78,8 +77,6 @@ const Portfolio = ({loadInitialData, location, user, portfolio, transactions, di
       dispatchAddTransaction({symbol, companyName, price, quantity, convertedDate}, user.transactionHistoryId);
     }
   }
-
-  console.log('selectedStock >>>>', selectedStock);
 
   let currCashStr = String(user.totalCash);
   let currCash = currCashStr.slice(0, currCashStr.length-2) + '.' + currCashStr.slice(currCashStr.length-2);

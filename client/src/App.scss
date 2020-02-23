@@ -1,6 +1,8 @@
 @import 'scss/abstracts/flex';
 @import 'scss/abstracts/spacing';
 @import 'scss/abstracts/text';
+@import 'scss/components/Landing';
+@import 'scss/components/Modal';
 @import 'scss/components/Portfolio';
 @import 'scss/components/StockList';
 @import 'scss/components/StockForm';
@@ -28,40 +30,8 @@ a {
   width: 100%;
 }
 
-.divider {
-  color: #666;
-  display: flex;
-  align-items: flex-start;
-  margin-left: 10px;
-  margin-right: 10px;
-}
-
 .main-wrapper {
   margin-top: 40px;
   padding: 4vh 2vh;
   min-width: 500px;
-}
-
-.landing {
-  text-align: center;
-}
-
-.landing-login {
-  width: inherit;
-}
-
-.page-header {
-  min-height: 100vh;
-  min-width: 40vw;
-  width: 60%;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.font-header {
-  font-size: calc(16px + 2vmin);
-}
-
-.divider-20px {
-  margin-bottom: 20px;
 }

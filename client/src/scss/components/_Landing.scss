@@ -1,0 +1,66 @@
+.landing {
+  text-align: center;
+}
+
+.landing-login {
+  width: inherit;
+}
+
+.page-header {
+  min-height: 100vh;
+  min-width: 40vw;
+  width: 50%;
+  font-size: calc(3px + 2vmin);
+  color: white;
+}
+
+.form-bar {
+  height: 25px;
+  padding: 5px;
+}
+
+#login-form input {
+  height: 2vh;
+}
+
+#login-form {
+  width: 350px;
+  font-size: 18px;
+}
+
+#signup-form {
+  width: 400px;
+  font-size: 18px;
+}
+
+#signup-form {
+  padding: 0px 5px;
+}
+
+.signup-link {
+  width: 40vw;
+  padding: 10px 0px;
+}
+
+.signup-link-text {
+  color: #54C7E2;
+  transition: 1s;
+  font-weight: 500;
+}
+
+.signup-link-text:hover {
+  color: #666;
+  -o-transition: 1s;
+  -ms-transition: 1s;
+  -moz-transition: 1s;
+  -webkit-transition: 1s;
+  transition: 1s;
+}
+
+.font-header {
+  font-size: calc(16px + 2vmin);
+}
+
+.divider-20px {
+  margin-bottom: 20px;
+}

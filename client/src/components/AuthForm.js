@@ -9,33 +9,33 @@ const AuthForm = props => {
   return (
     <div id="login-form">
       <form onSubmit={handleSubmit} name={name}>
-        <div>
+        <div className="form-bar flex-display flex-space-btw">
           <label htmlFor="email">
-            <small>Email</small>
+            Email
           </label>
           <input id="email" name="email" type="text" />
         </div>
-        <div>
+        <div className="form-bar flex-display flex-space-btw flex-align-center">
           <label htmlFor="password">
-            <small>Password</small>
+            Password
           </label>
           <input id="password" name="password" type="password" />
         </div>
         {/* create first name and last name fields here, depending on whether "name" on props is login or signup*/}
         {name === 'signup' ? (
-          <div id="signup-form">
-            <div>
+          // <div id="signup-form">
+            <div className="form-bar flex-display flex-space-btw flex-align-center">
               <label htmlFor="confirmPassword">
-                <small>Confirm Password</small>
-                <input id="confirmPassword" name="confirmPassword" type="text" />
+                Confirm Password
               </label>
+                <input id="confirmPassword" name="confirmPassword" type="password" />
             </div>
-          </div>
+          // </div>
         ) : (
           <div />
         )}
 
-        <div>
+        <div className="padding-10">
           <button type="submit">{displayName}</button>
         </div>
         {error && error.response && <div> {error.response.data} </div>}
