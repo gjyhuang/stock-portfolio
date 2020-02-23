@@ -17,15 +17,18 @@
   #portfolio {
     min-width: 100px;
     flex-wrap: nowrap;
+    width: 65vw;
   }
 
   .left-wrapper {
     height: 100%;
     margin-bottom: 4vh;
+    width: 67vw;
   }
 
   .right-wrapper {
     margin-top: 2vh;
+    width: 70vw;
   }
 
   .divider-col {
@@ -35,4 +38,14 @@
   .divider-row {
     display: block;
   }
+
+  #stock-search {
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  #transactions .stock-list {
+    width: 60vw;
+  }
+
 }

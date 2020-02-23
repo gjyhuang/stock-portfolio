@@ -6,3 +6,10 @@
   grid-template-columns: 7vw 10vw 7vw 9vw 7vw;
   grid-template-rows: auto;
 }
+
+@media only screen and (max-width: 500px) {
+  #stock-selected ul {
+    width: 60vw;
+    grid-template-columns: 11vw 14vw 9vw 14vw 12vw;
+  }
+}

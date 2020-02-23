@@ -55,7 +55,7 @@ const AuthForm = props => {
         )}
 
         <div className="padding-10">
-          <button type="submit">{displayName}</button>
+          <button type="submit" style={{backgroundColor: isSignup ? "#333" : "#000"}}>{displayName}</button>
         </div>
         {error && error.response && <div className="auth-error" style={{display: isSignup}}> {error.response.data} </div>}
       </form>

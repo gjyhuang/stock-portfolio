@@ -24,7 +24,7 @@
 }
 
 #login-form {
-  width: 350px;
+  width: 300px;
   font-size: 18px;
 }
 
@@ -63,4 +63,10 @@
 
 .divider-20px {
   margin-bottom: 20px;
+}
+
+@media only screen and (max-width: 500px) {
+  #login-form {
+    width: 75vw;
+  }
 }

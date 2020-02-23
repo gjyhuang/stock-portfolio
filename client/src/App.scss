@@ -1,6 +1,7 @@
 @import 'scss/abstracts/flex';
 @import 'scss/abstracts/spacing';
 @import 'scss/abstracts/text';
+@import 'scss/components/Button';
 @import 'scss/components/Landing';
 @import 'scss/components/Modal';
 @import 'scss/components/Portfolio';
@@ -28,15 +29,21 @@ a {
 
 #root {
   width: 100%;
-  margin-top: 40px;
 }
 
 .margin-top-wrapper {
+  margin-top: 50px;
+  width: 100%;
+  left: 0;
+  top: 0;
+  bottom: 0;
   position: fixed;
+  overflow-x: auto;
+  overflow-y: auto;
 }
 
 .main-wrapper {
-  padding: 4vh 2vh;
+  padding: 2vh 2vh;
   min-width: 500px;
 }
 

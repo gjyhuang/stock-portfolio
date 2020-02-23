@@ -24,6 +24,10 @@
   border-radius: 10px;
 }
 
+.auth-modal #login-form {
+  width: 350px;
+}
+
 .modalfade-enter {
   opacity: 0;
 }
@@ -55,3 +59,16 @@
   margin-bottom: 10px;
 }
 
+@media only screen and (max-width: 500px) {
+  .auth-modal {
+    width: 100vw;
+  }
+
+  .auth-modal #login-form {
+    width: 87vw;
+  }
+
+  #login-form input, #login-form label {
+    font-size: 14px;
+  }
+}

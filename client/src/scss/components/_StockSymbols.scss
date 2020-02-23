@@ -28,3 +28,36 @@
   margin-top: .7vh;
   margin-right: .4vh;
 }
+
+@media only screen and (max-width: 500px) {
+  .greenTriangle {
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-bottom: 4px solid green;
+    margin-top: .6vh;
+    margin-right: .4vh;
+  }
+
+  .redTriangle {
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid red;
+    margin-top: .6vh;
+    margin-right: .4vh;
+  }
+
+  .greyCircle {
+    width: 4px;
+    height: 4px;
+    min-width: 4px;
+    min-height: 4px;
+    background-color: grey;
+    border-radius: 50%;
+    margin-top: .5vh;
+    margin-right: .4vh;
+  }
+}

@@ -86,10 +86,12 @@ const Portfolio = ({loadInitialData, location, user, portfolio, transactions, di
     return (
       <>
       <Navbar />
-      <div className="main-wrapper flex-display flex-wrap flex-space-arnd">
-        <div id="transactions">
-          <div className="header">Transactions</div>
-          <StockList transactions={transactions} isTransactionsPage={true}/>
+      <div className="margin-top-wrapper">
+        <div className="main-wrapper flex-display flex-wrap flex-justify-center">
+          <div id="transactions" className="flex-wrap flex-justify-center">
+            <div className="header">Transactions</div>
+            <StockList transactions={transactions} isTransactionsPage={true}/>
+          </div>
         </div>
       </div>
       </>
@@ -111,7 +113,7 @@ const Portfolio = ({loadInitialData, location, user, portfolio, transactions, di
         </div>
         <div className="divider-col" />
         <div className="divider-row" />
-        <div className="right-wrapper width-45vw min-width-200flex-display flex-dir-col flex-align-center">
+        <div className="right-wrapper width-45vw min-width-200 flex-display flex-dir-col flex-align-center">
           <div className="text-description body-text-normal padding-20">
             Look up a stock to purchase via its symbol.
           </div>
