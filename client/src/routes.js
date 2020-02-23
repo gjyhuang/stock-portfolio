@@ -9,9 +9,10 @@ import ConnectedPortfolio from './components/Portfolio';
 import PageLoader from './components/screens/PageLoader';
 
 const Routes = ({loadInitialData, isLoggedIn}) => {
+  const [isCheckingAuth, setIsCheckingAuth] = React.useState(true);
+  useEffect(() => loadInitialData(setIsCheckingAuth), []);
 
-  useEffect(() => loadInitialData(), []);
-
+  if (isCheckingAuth) return <PageLoader />;
   return (
     <Switch>
       {/* Routes placed here are available to all visitors */}
@@ -44,9 +45,9 @@ const mapState = state => {
 };
 
 const mapDispatch = dispatch => ({
-  loadInitialData() {
+  loadInitialData(setIsCheckingAuth) {
     // if there's a state dispatch me with user
-    dispatch(me());
+    dispatch(me(setIsCheckingAuth));
   }
 });
 

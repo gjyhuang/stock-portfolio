@@ -31,6 +31,11 @@ export const getPortfolioThunkCreator = (id) => async dispatch => {
       .map(stock => stock.symbol)
       .join(',');
     const URL = `https://sandbox.iexapis.com/stable/stock/market/batch?symbols=${symbols}&types=quote&range=1m&last=5&&token=${STOCK_API_KEY}`;
+    // api call won't work if portfolio is empty - skip
+    if (!symbols) {
+      dispatch(getPortfolio(portfolio));
+      return;
+    }
     const dataFetch = await axios.get(URL);
 
     // map through portfolio array to access nested objects from response object

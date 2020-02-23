@@ -21,10 +21,11 @@ const updateCash = cash => ({type: UPDATE_CASH, cash})
 
 // checks for persisted login. if no user, sends to login/signup
 // else, sends the logged in user to their portfolio
-export const me = () => async dispatch => {
+export const me = (setIsCheckingAuth) => async dispatch => {
   try {
     const res = await axios.get('/auth/me')
     dispatch(getUser(res.data || defaultUser))
+    setIsCheckingAuth(false);
     if (res.data) history.push('/portfolio')
     else history.push(('/'))
   } catch (err) {

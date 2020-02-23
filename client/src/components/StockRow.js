@@ -4,7 +4,6 @@ const StockRow = ({symbol, companyName, quantity, value, status}) => {
   let totalValue = value * quantity;
   totalValue = totalValue.toFixed(2);
 
-  console.log('status >>>', status)
   const changeStatus = status > 0 ? "greenTriangle" : "redTriangle";
 
   return (

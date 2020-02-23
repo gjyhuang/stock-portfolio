@@ -5,7 +5,6 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 const Landing = () => {
   const [showingModal, setShowingModal] = React.useState(false);
-  console.log(showingModal)
   return (
     <div className="landing flex-centered-all">
     <header className="page-header flex-centered-all flex-dir-col">
@@ -21,22 +20,18 @@ const Landing = () => {
         </div>
       </div>
     </header>
-    <TransitionGroup
-        childFactory={child => React.cloneElement(child, { AuthModal })} // <- change here
-      >
-      <CSSTransition
-        classNames="modalfade"
-        in={showingModal}
-        timeout={400}
-        unmountOnExit
-        appear
-      >
-        <AuthModal
-          variant="primary"
-          showingModal={showingModal}
-          setShowingModal={setShowingModal}/>
-      </CSSTransition>
-    </TransitionGroup>
+    <CSSTransition
+      classNames="modalfade"
+      in={showingModal}
+      timeout={400}
+      unmountOnExit
+      appear
+    >
+      <AuthModal
+        variant="primary"
+        showingModal={showingModal}
+        setShowingModal={setShowingModal}/>
+    </CSSTransition>
   </div>
   );
 }

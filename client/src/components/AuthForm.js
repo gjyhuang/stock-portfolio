@@ -4,7 +4,26 @@ import PropTypes from 'prop-types';
 import {auth} from '../store';
 
 const AuthForm = props => {
-  const {name, displayName, handleSubmit, error} = props;
+  const {name, displayName, dispatchAuth, error, newPwdError, setNewPwdError, isSignup} = props;
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    const formName = evt.target.name;
+    const email = evt.target.email.value;
+    const password = evt.target.password.value;
+    if (formName === 'login') {
+      dispatchAuth(email, password, 'login');
+    } else if (formName === 'signup') {
+      const confirmPassword = evt.target.confirmPassword.value;
+      if (error && error.response && error.response.data) {
+        setNewPwdError(error.response.data);
+      } else if (confirmPassword !== password) {
+        setNewPwdError("Both password fields must match.");
+      }
+      // else if this form is a signup, register a new user
+      dispatchAuth(email, password, 'signup');
+    }
+  }
 
   return (
     <div id="login-form">
@@ -38,7 +57,7 @@ const AuthForm = props => {
         <div className="padding-10">
           <button type="submit">{displayName}</button>
         </div>
-        {error && error.response && <div> {error.response.data} </div>}
+        {error && error.response && <div className="auth-error" style={{display: isSignup}}> {error.response.data} </div>}
       </form>
     </div>
   );
@@ -57,18 +76,8 @@ const mapSignup = state => ({
 });
 
 const mapDispatch = dispatch => ({
-  handleSubmit(evt) {
-    evt.preventDefault();
-    const formName = evt.target.name;
-    const email = evt.target.email.value;
-    const password = evt.target.password.value;
-    if (formName === 'login') {
-      dispatch(auth(email, password, 'login'));
-    } else if (formName === 'signup') {
-      // else if this form is a signup, register a new user
-      dispatch(auth(email, password, 'signup'));
-    }
-  }
+  dispatchAuth: (email, password, type) => dispatch(auth(email, password, type)),
+
 });
 
 export const Login = connect(mapLogin, mapDispatch)(AuthForm);
@@ -77,6 +86,6 @@ export const Signup = connect(mapSignup, mapDispatch)(AuthForm);
 AuthForm.propTypes = {
   name: PropTypes.string.isRequired,
   displayName: PropTypes.string.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
+  dispatchAuth: PropTypes.func.isRequired,
   error: PropTypes.object
 };
